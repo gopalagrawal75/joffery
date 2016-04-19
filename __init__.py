@@ -1,4 +1,4 @@
-author="Pradeep"
+author="Gopal"
 
 import pymongo
 from django.http import HttpResponse
@@ -13,13 +13,13 @@ file = os.path.join(
     'db_creds.json'
 )
 with open(file, 'r') as cfile:
-    creds = json.load(cfile)['jaime']
+    creds = json.load(cfile)['joffrey']
 
 dbclient = pymongo.MongoClient("45.55.232.5:27017")
-dbclient.jaime.authenticate(creds['u'], creds['p'], mechanism='MONGODB-CR')
+dbclient.joffrey.authenticate(creds['u'], creds['p'], mechanism='MONGODB-CR')
 
 # hello
-db = dbclient.jaime
+db = dbclient.joffrey
 
 # ------- Json response format ------------------------------ #
 def get_json(request):

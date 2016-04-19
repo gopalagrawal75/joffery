@@ -10,5 +10,9 @@
   "cersei": {
     "u": "cerseiApi",
     "p": "baratheonQueen"
+  },
+  "joffrey": {
+    "u": "GOTUser",
+    "p": "GOT@123"
   }
 }
