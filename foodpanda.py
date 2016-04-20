@@ -16,6 +16,7 @@ def showVendorData(request):
 		data['info']=restaurant.find_one({"vendor_code":code} , {"_id":False})
 		sales = db.sales
 		data['sales']=sales.find_one({"vendor_code":code} , {"_id":False})
+		data['sales']['commision']=data['info']['commision']
 		week4=db.ops_data_4_week
 		data['week4']=week4.find_one({"vendor_code":code} , {"_id":False})
 		weekly = db.ops_data_weekly
@@ -91,8 +92,9 @@ def restaurant_portfolio(request):
 			temp={}
 			temp['code']=res_data['vendor_code']
 			temp['name']=res_data['owner_name']
-			temp['prof/ord']=res_data.get("prof/ord")
-			temp['action']=res_data.get("action")
+			temp['prof_order']=res_data.get("prof_order")
+			temp['action_pending']=res_data.get("action_pending")
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/restaurant?vendor_code="+res_data['vendor_code']
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
@@ -118,6 +120,7 @@ def AM_portfolio(request):
 			temp['prf/ord']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/am?email="+res_data.get('rm_email')
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
@@ -141,6 +144,7 @@ def city_portfolio(request):
 			temp['prf/ord']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/city_head?email="+res_data.get('ch_email')
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
