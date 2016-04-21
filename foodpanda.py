@@ -14,6 +14,7 @@ def showVendorData(request):
 		data={}
 		restaurant = db.restaurant_data
 		data['info']=restaurant.find_one({"vendor_code":code} , {"_id":False})
+		
 		sales = db.sales
 		data['sales']=sales.find_one({"vendor_code":code} , {"_id":False})
 		data['sales']['commision']=data['info']['commision']
@@ -25,6 +26,7 @@ def showVendorData(request):
 		data['logs']=log.find_one({"vendor_code":code} , {"_id":False})
 		action = db.action_board
 		data['action']=action.find({"vendor_code":code} , {"_id":False})
+		data['info']['order_last_4_week'] = data['week4']['orders']
 		return basic_success(data)
 	except Exception as e:
 		return basic_error(e)
