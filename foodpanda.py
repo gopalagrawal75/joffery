@@ -146,7 +146,7 @@ def city_portfolio(request):
 			temp['prf/ord']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
-			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/city_head?email="+res_data.get('ch_email')
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/city_head?email="+res_data.get('city_head_email')
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
