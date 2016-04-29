@@ -93,7 +93,7 @@ def restaurant_portfolio(request):
 		for res_data in data:
 			temp={}
 			temp['code']=res_data['vendor_code']
-			temp['name']=res_data['owner_name']
+			temp['name']=res_data['vendor_name']
 			temp['prof_order']=res_data.get("prof_order")
 			temp['action_pending']=res_data.get("action_pending")
 			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/restaurant?vendor_code="+res_data['vendor_code']
@@ -119,7 +119,7 @@ def AM_portfolio(request):
 		for res_data in data:
 			temp={}
 			temp['name']=res_data['am_name']
-			temp['prf/ord']=res_data['prof_order']
+			temp['prof_order']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
 			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/am?email="+res_data.get('rm_email')
@@ -143,7 +143,7 @@ def city_portfolio(request):
 		for res_data in data:
 			temp={}
 			temp['name']=res_data['ch_name']
-			temp['prf/ord']=res_data['prof_order']
+			temp['prof_order']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
 			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/city_head?email="+res_data.get('city_head_email')
