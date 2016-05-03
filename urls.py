@@ -31,6 +31,7 @@ urlpatterns = [
 	url(r'city_data$',  foodpanda.city_portfolio),
 	url(r'am$',  foodpanda.AM),
 	url(r'city_head$',  foodpanda.Cityhead),
+	url(r'check_email$' , foodpanda.check_email) ,
 	
     
 ]

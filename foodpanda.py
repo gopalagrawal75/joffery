@@ -4,6 +4,20 @@ from . import db, get_json, basic_success, basic_error
 
 failure = dumps({"Failed"})
 @csrf_exempt
+def check_email(request):
+	try:
+		email = request.GET['email']
+	except:
+		return basic_error("invalid parameters")
+	try:
+		creds = db.operation_heads
+		check_email = creds.find_one({"email":email} , {"_id":False , "type":True})
+		if check_email:
+			return basic_success({"email":email , "level":check_email['type']})
+		else:
+			return basic_error("EmailID doesn't exist")
+	except:
+		return basic_error("Something Went Wrong")
 def showVendorData(request):
 	try:
 		code = request.GET['vendor_code']
