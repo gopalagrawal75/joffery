@@ -1,16 +1,4 @@
 {
-  "tyrion": {
-    "u": "tyrionApi",
-    "p": "halfman"
-  },
-  "jaime": {
-    "u": "jaimeApi",
-    "p": "goldenHead"
-  },
-  "cersei": {
-    "u": "cerseiApi",
-    "p": "baratheonQueen"
-  },
   "joffrey": {
     "u": "GOTUser",
     "p": "GOT@123"
