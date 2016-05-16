@@ -1,6 +1,7 @@
 {
   "joffrey": {
-    "u": "GOTUser",
+    "host":"45.55.232.5:27017",
+	"u": "GOTUser",
     "p": "GOT@123"
   }
 }
