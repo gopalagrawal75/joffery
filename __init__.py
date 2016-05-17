@@ -15,7 +15,7 @@ file = os.path.join(
 with open(file, 'r') as cfile:
     creds = json.load(cfile)['joffrey']
 
-dbclient = pymongo.MongoClient(creds['host'])
+dbclient = pymongo.MongoClient("45.55.232.5:27017")
 dbclient.joffrey.authenticate(creds['u'], creds['p'], mechanism='MONGODB-CR')
 
 # hello
