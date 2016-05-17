@@ -1,5 +1,5 @@
 author="Gopal"
-
+import yaml
 import pymongo
 from django.http import HttpResponse
 from bson.json_util import dumps
@@ -7,16 +7,15 @@ from bson.json_util import dumps
 # ------- Database Authentication and access ---------------- #
 import json
 import os
-
 file = os.path.join(
     os.path.dirname(__file__),
-    'db_creds.json'
+    'setting.yml'
 )
-with open(file, 'r') as cfile:
-    creds = json.load(cfile)['joffrey']
+with open(file, 'r') as ymlfile:
+    creds = yaml.load(ymlfile)
 
-dbclient = pymongo.MongoClient("45.55.232.5:27017")
-dbclient.joffrey.authenticate(creds['u'], creds['p'], mechanism='MONGODB-CR')
+dbclient = pymongo.MongoClient(creds['mongodb']['host'])
+dbclient.joffrey.authenticate(creds['mongodb']['username'], creds['mongodb']['password'], mechanism='MONGODB-CR')
 
 # hello
 db = dbclient.joffrey
