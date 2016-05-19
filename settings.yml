@@ -1,4 +1,0 @@
- mongodb:
-      host: 45.55.232.5:27017
-      username: GOTUser
-      password: GOT@123
