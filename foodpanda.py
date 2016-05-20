@@ -4,7 +4,11 @@ from . import db, get_json, basic_success, basic_error
 
 failure = dumps({"Failed"})
 @csrf_exempt
-def check_email(opts , email , method):
+def check_email(request):
+	try:
+		email = request.GET['email']
+	except:
+		return basic_error("invalid parameters")
 	try:
 		creds = db.operation_heads
 		check_email = creds.find_one({"email":email} , {"_id":False , "type":True})
@@ -14,16 +18,9 @@ def check_email(opts , email , method):
 			return basic_error("EmailID doesn't exist")
 	except:
 		return basic_error("Something Went Wrong")
-def showVendorData(opts , email , method):
+def showVendorData(request):
 	try:
-		check_level =db.operation_heads
-		check = check_level.find_one({"email":email} , {"_id":False})
-		if not check:
-			return basic_error("Invalid Email")
-	except Exception as e:
-		return basic_error("Email doesn't Exist")	
-	try:
-		code = opts.get('vendor_code')
+		code = request.GET['vendor_code']
 	except:
 		return basic_error("invalid parameters")
 		
@@ -31,8 +28,7 @@ def showVendorData(opts , email , method):
 		data={}
 		restaurant = db.restaurant_data
 		data['info']=restaurant.find_one({"vendor_code":code} , {"_id":False})
-		if not data['info']:	
-			return basic_error("Invalid vendor code")
+		
 		sales = db.sales
 		data['sales']=sales.find_one({"vendor_code":code} , {"_id":False})
 		data['sales']['commision']=data['info']['commision']
@@ -47,39 +43,55 @@ def showVendorData(opts , email , method):
 		data['info']['order_last_4_week'] = data['week4']['orders']
 		return basic_success(data)
 	except Exception as e:
-		return basic_error("Invalid vendor Code");
-def Saleshead(opts , email , method):
+		return basic_error(e)
+def Saleshead(request):
+	try:
+		email = request.GET['email']
+	except:
+		return basic_error("Invalid Parameter")
 	try:
 		check_level =db.operation_heads
 		check = check_level.find_one({"email":email} , {"_id":False})
 		if check and int(check['type']) is 3:
 			return basic_success(db.sales_head.find_one(projection={"_id":False}))
 		else:
-			return basic_error("Invalid Email or permission denied")
+			return basic_error("Something went Wrong")
 	except Exception as e:
-		return basic_error("Something went wrong")
-def Cityhead(opts , email , method):
+		return basic_error(e)
+def Cityhead(request):
+	try:
+		email = request.GET['email']
+	except:
+		return basic_error("Invalid Parameter")
 	try:
 		check_level =db.operation_heads
 		check = check_level.find_one({"email":email} , {"_id":False})
 		if check and int(check['type']) is 2:
 			return basic_success(db.city_head.find_one(projection={"_id":False}))
 		else:
-			return basic_error("Invalid Email or permission denied")
+			return basic_error("Something went Wrong")
 	except Exception as e:
-		return basic_error("Something went wrong")
-def AM(opts , email , method):
+		return basic_error(e)
+def AM(request):
+	try:
+		email = request.GET['email']
+	except:
+		return basic_error("Invalid Parameter")
 	try:
 		check_level =db.operation_heads
 		check = check_level.find_one({"email":email} , {"_id":False})
 		if check and int(check['type']) is 1:
 			return basic_success(db.am.find_one(projection={"_id":False}))
 		else:
-			return basic_error("Invalid Email or permission denied")
+			return basic_error("Something went Wrong")
 	except Exception as e:
-		return basic_error("Something went wrong")
+		return basic_error(e)
 
-def restaurant_portfolio(opts , email , method):
+def restaurant_portfolio(request):
+	try:
+		email = request.GET['email']
+	except Exception as e :
+		return basic_error(e)
 	try:
 		check_level =db.operation_heads
 		check = check_level.find_one({"email":email} , {"_id":False})
@@ -90,7 +102,7 @@ def restaurant_portfolio(opts , email , method):
 		elif  check and int(check['type']) is 1:
 			data = db.restaurant_data.find({"rm_email":email}, {"_id":False})
 		else:
-			return basic_error("Invalid emailID")
+			return basic_error("Something went Wrong")
 		data_orig=list()
 		for res_data in data:
 			temp={}
@@ -98,11 +110,16 @@ def restaurant_portfolio(opts , email , method):
 			temp['name']=res_data['vendor_name']
 			temp['prof_order']=res_data.get("prof_order")
 			temp['action_pending']=res_data.get("action_pending")
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/restaurant?vendor_code="+res_data['vendor_code']
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
-		return basic_error("Something went wrong")
-def AM_portfolio(opts , email , method):
+		return basic_error(e)
+def AM_portfolio(request):
+	try:
+		email = request.GET['email']
+	except:
+		return basic_error("Invalid Parameter")
 	try:
 		check_level =db.operation_heads
 		check = check_level.find_one({"email":email} , {"_id":False})
@@ -111,7 +128,7 @@ def AM_portfolio(opts , email , method):
 		elif  check and int(check['type']) is 2:
 			data = db.am.find({"city_head_email":email}, {"_id":False})
 		else:
-			return basic_error("Invalid Email or Permission denied")
+			return basic_error("Something went Wrong")
 		data_orig=list()
 		for res_data in data:
 			temp={}
@@ -119,10 +136,11 @@ def AM_portfolio(opts , email , method):
 			temp['prof_order']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/am?email="+res_data.get('rm_email')
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
-		return basic_error("Something went wrong")
+		return basic_error(e)
 def city_portfolio(request):
 	try:
 		email = request.GET['email']
@@ -142,7 +160,8 @@ def city_portfolio(request):
 			temp['prof_order']=res_data['prof_order']
 			temp['deal']=res_data.get("deal_penetration")
 			temp['target']=res_data.get("target_acheiv_month")
+			temp['link']="http://lannister-api.elasticbeanstalk.com/joffrey/city_head?email="+res_data.get('city_head_email')
 			data_orig.append(temp.copy())
 		return basic_success(data_orig)
 	except Exception as e:
-		return basic_error("Something Went wrong")
+		return basic_error(e)

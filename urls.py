@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from . import foodpanda , security
+from . import foodpanda
 import json
 
 @csrf_exempt
@@ -22,22 +22,19 @@ def test(request):
         "extra": extra
     })
 
-@csrf_exempt
-def error404(request):
-	return JsonResponse({
-        "error": 404,
-        "Message": "Page not found!",
-    })
-
 urlpatterns = [
-#	url(r'^$', test),
-	url(r'restaurant$',  security.auth(foodpanda.showVendorData)),
-	url(r'sales_head$',  security.auth(foodpanda.Saleshead)),
-	url(r'restaurant_data$',  security.auth(foodpanda.restaurant_portfolio)),
-	url(r'am_data$',  security.auth(foodpanda.AM_portfolio)),
-	url(r'city_data$',  security.auth(foodpanda.city_portfolio)),
-	url(r'am$',  security.auth(foodpanda.AM)),
-	url(r'city_head$',  security.auth(foodpanda.Cityhead)),
-	url(r'check_email$' , security.auth(foodpanda.check_email)) ,
-	url(r'/*$',error404 )
+    url(r'^$', test),
+    url(r'restaurant$',  foodpanda.showVendorData),
+	url(r'sales_head$',  foodpanda.Saleshead),
+	url(r'restaurant_data$',  foodpanda.restaurant_portfolio),
+	url(r'am_data$',  foodpanda.AM_portfolio),
+	url(r'city_data$',  foodpanda.city_portfolio),
+	url(r'am$',  foodpanda.AM),
+	url(r'city_head$',  foodpanda.Cityhead),
+	url(r'check_email$' , foodpanda.check_email) ,
+	
+    
 ]
+
+
+
